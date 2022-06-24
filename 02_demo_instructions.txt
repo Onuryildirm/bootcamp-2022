@@ -1,0 +1,49 @@
+
+## IAM ROLE :
+
+Create Role
+AmazonDynamoDBFullAccess ve AmazonS3ReadOnlyAccess policy
+Role Name= Lambda-Load-Inventory-Role 
+Add inline Policy =>  03_IAM-Roles.txt dosyası Name= CWLogsPolicy 
+--------
+Create Role=> AWS Lambda Service => Attach permissionpolicies => AWSLambdaDynamoDBExecutionRole ve AmazonSNSFullAccess policy
+Name= Lambda-Check-Stock-Role
+
+## LAMBDA FUNCTION - LOAD-INVENTORY FUNCTION :
+
+Runtime= Python 3.7 =>  permission  "Lambda-Load-Inventory-Role" 
+
+## S3 BUCKET 
+
+Create Bucket=> Properties- Advanced Settings  "Events" => Add Notification Name= Load-Inventory, Event = All object create events, Send to = Lambda function & Lambda= Load-Inventory 
+
+## DYNAMODB TABLO OLUŞTURMA :
+Create table => name= Inventory, Partition key= Store (string), Sort key = Item (string) 
+
+## TEST LOAD-INVENTORY FUNCTION :
+
+ "inventory-files" => upload S3 bucket  => DynamoDB => tables Inventory  => Items
+
+## SNS 
+
+Simple Notification Service =>  Create Topic => Name=NoStock => Create Subscription => Protocol=SMS & Endpoint= your phone number
+
+## LAMBDA FUNCTION OLUŞTURMA - CHECK-STOCK FUNCTION :
+
+Runtime= Python 3.7 =>  permission  "Lambda-Check-Stock-Role"  => Designer  "+Add Trigger" => Select a trigger= DynamoDB, DynamoDB Table= Inventory 
+
+
+## TEST
+
+# 1) Daha önce yüklenmiş CSV dosyalarından bir tanesindeki stoklardan birkaçı 0 olarak editlenir.
+# 2) S3 üzerine ilgili CSV dosyası upload edilir.
+# 3) DynamoDB üzerinden Inventory Table itemlara bakılır kayıtlar gelmiş mi diye kontrol edilir.
+# 4) SNS ile ilgili numaraya SMS atılmış olacaktır.
+
+--------------------------------------------------------------------------------------------------------------------
+
+ 
+
+
+
+

@@ -1,0 +1,32 @@
+## Lambda-Check-Stock-Role
+
+# add AWSLambdaDynamoDBExecutionRole  - AWS managed Policy
+# add AmazonSNSFullAccess  - AWS managed Policy
+
+------------------------------------------------------------
+
+## Lambda-Load-Inventory-Role
+
+# add AmazonDynamoDBFullAccess - AWS managed Policy
+# add AmazonS3ReadOnlyAccess - AWS managed Policy
+
+
+# Policy Name : CWLogsPolicy
+# Policy Type : inline policy
+
+# Inline Policy Json
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "arn:aws:logs:*:*:*",
+            "Effect": "Allow"
+        }
+    ]
+}
